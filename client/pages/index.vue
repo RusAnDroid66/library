@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     load_books_list() {
-      this.$axios.get("https://127.0.0.1:8000/book/all").then((response) => {
+      this.$axios.get("https://127.0.0.1:8000/api/book/all").then((response) => {
         consloe.log("success");
         this.books = response.data;
       });

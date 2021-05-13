@@ -33,12 +33,20 @@
     <v-card class="mt-7 pa-3 elevation-1">
       <v-card-text>
         <h3 class="mb-3">Добавить книгу</h3>
-        <v-text-field
-          label="Название книги"
-          v-model="new_book.title"
-        ></v-text-field>
-        <v-text-field label="Автор" v-model="new_book.author"></v-text-field>
-        <v-btn color="purple" outlined :click="add_book()">Добавить</v-btn>
+        <v-row>
+          <v-col>
+            <v-text-field
+              label="Название книги"
+              v-model="new_book.title"
+            ></v-text-field>
+          </v-col>
+          <v-col>
+            <v-text-field label="Автор" v-model="new_book.author"></v-text-field>
+          </v-col>
+          <v-col>
+            <v-btn color="purple" outlined :click="add_book()">Добавить</v-btn>
+          </v-col>
+        </v-row>
       </v-card-text>
     </v-card>
   </div>
@@ -79,28 +87,28 @@ export default {
   },
   methods: {
     load_books_list() {
-      this.$axios.get("https://127.0.0.1:8000/book/all").then((response) => {
+      this.$axios.get("https://127.0.0.1:8000/api/book/all").then((response) => {
         consloe.log("success");
         this.books = response.data;
       });
     },
     add_book() {
       this.$axios
-        .post("https://127.0.0.1:8000/book/add", this.new_book)
+        .post("https://127.0.0.1:8000/api/book/add", this.new_book)
         .then((response) => {
           this.load_books_list();
         });
     },
     delete_book(id) {
       this.$axios
-        .get("https://127.0.0.1:8000/book/delete/" + id)
+        .get("https://127.0.0.1:8000/api/book/delete/" + id)
         .then((response) => {
           this.load_books_list();
         });
     },
     change_book_availability(id) {
       this.$axios
-        .get("https://127.0.0.1:8000/book/change_availabilty/" + id)
+        .get("https://127.0.0.1:8000/api/book/change_availabilty/" + id)
         .then((response) => {
           this.load_books_list();
         });

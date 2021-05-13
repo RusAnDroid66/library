@@ -1,19 +1,26 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+use App\Http\Controllers\BookController;
 
 /*
 |--------------------------------------------------------------------------
-| API Routes
+| Web Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register API routes for your application. These
+| Here is where you can register web routes for your application. These
 | routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
+| contains the "web" middleware group. Now create something great!
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::post('/book/add', [BookController::class, 'add']);
+
+Route::get('/book/all', [BookController::class, 'all']);
+
+Route::get('/book/delete/{id}', [BookController::class, 'delete']);
+
+Route::get('/book/change_availabilty/{id}', [BookController::class, 'changeAvailabilty']);
+
+Route::middleware('auth.danctum')->post('/token/get');

@@ -14,12 +14,3 @@ use App\Http\Controllers\BookController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::post('/book/add', [BookController::class, 'add']);
-
-Route::get('/book/all', [BookController::class, 'all']);
-
-Route::get('/book/delete/{id}', [BookController::class, 'delete']);
-
-Route::get('/book/change_availabilty/{id}', [BookController::class, 'changeAvailabilty']);
-

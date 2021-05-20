@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\AuthController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -15,12 +17,12 @@ use App\Http\Controllers\BookController;
 |
 */
 
-Route::post('/book/add', [BookController::class, 'add']);
+Route::middleware('auth.sanctum')->post('/book/add', [BookController::class, 'add']);
 
-Route::get('/book/all', [BookController::class, 'all']);
+Route::middleware('auth.sanctum')->get('/book/all', [BookController::class, 'all']);
 
-Route::get('/book/delete/{id}', [BookController::class, 'delete']);
+Route::middleware('auth.sanctum')->get('/book/delete/{id}', [BookController::class, 'delete']);
 
-Route::get('/book/change_availabilty/{id}', [BookController::class, 'changeAvailabilty']);
+Route::middleware('auth.sanctum')->get('/book/change_availabilty/{id}', [BookController::class, 'changeAvailabilty']);
 
-Route::middleware('auth.danctum')->post('/token/get');
+Route::post('/token/get',  [AuthController::class, 'getToken']);

@@ -48,19 +48,21 @@ export default {
   },
   methods: {
     load_books_list() {
-      this.$axios.get("http://127.0.0.1:8000/api/book/all").then((response) => {
+      this.$axios.get("http://127.0.0.1:8000/api/book/all", { 
+        headers: { "Authorization" : 'Bearer ' + this.$store.state.apiToken } 
+      }).then((response) => {
         this.books = response.data;
       });
     },
+    check_login() {
+      if (!this.$store.state.apiToken) {
+        this.$router.push('/login')
+      }
+    }
   },
   mounted() {
+    this.check_login();
     this.load_books_list();
-  },
-  async asyncData({ $axios }) {
-    const response = await $axios.get("http://127.0.0.1:8000/api/book/all");
-    return {
-      books: response.data
-    }
   }
 };
 </script>

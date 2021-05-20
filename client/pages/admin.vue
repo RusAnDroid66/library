@@ -88,40 +88,48 @@ export default {
   },
   methods: {
     load_books_list() {
-      this.$axios.get("http://127.0.0.1:8000/api/book/all").then((response) => {
+      this.$axios.get("http://127.0.0.1:8000/api/book/all", { 
+        headers: { "Authorization" : 'Bearer ' + this.$store.state.apiToken } 
+      }).then((response) => {
         this.books = response.data;
       });
     },
     add_book() {
       this.$axios
-        .post("http://127.0.0.1:8000/api/book/add", this.new_book)
+        .post("http://127.0.0.1:8000/api/book/add", this.new_book, { 
+          headers: { "Authorization" : 'Bearer ' + this.$store.state.apiToken } 
+        })
         .then((response) => {
           this.load_books_list();
         });
     },
     delete_book(id) {
       this.$axios
-        .get("http://127.0.0.1:8000/api/book/delete/" + id)
+        .get("http://127.0.0.1:8000/api/book/delete/" + id, { 
+          headers: { "Authorization" : 'Bearer ' + this.$store.state.apiToken } 
+        })
         .then((response) => {
           this.load_books_list();
         });
     },
     change_book_availability(id) {
       this.$axios
-        .get("http://127.0.0.1:8000/api/book/change_availabilty/" + id)
+        .get("http://127.0.0.1:8000/api/book/change_availabilty/" + id, { 
+          headers: { "Authorization" : 'Bearer ' + this.$store.state.apiToken } 
+        })
         .then((response) => {
           this.load_books_list();
         });
     },
+    check_login() {
+      if (!this.$store.state.apiToken) {
+        this.$router.push('/login')
+      }
+    }
   },
   mounted() {
+    this.check_login();
     this.load_books_list();
-  },
-  async asyncData({ $axios }) {
-    const response = await $axios.get("http://127.0.0.1:8000/api/book/all");
-    return {
-      books: response.data
-    }
   }
 };
 </script>

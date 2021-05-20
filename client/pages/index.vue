@@ -7,14 +7,14 @@
       :items-per-page="5"
       class="elevation-1"
     >
-      <template v-slot:[`item.status`]="{ item }">
+      <template v-slot:[`item.availability`]="{ item }">
         <v-chip
           class="ma-2"
-          :color="item.status ? 'blue' : 'red'"
+          :color="item.availability ? 'blue' : 'red'"
           label
           outlined
         >
-          {{ item.status ? "В наличии" : "Выдана" }}
+          {{ item.availability ? "В наличии" : "Выдана" }}
         </v-chip>
       </template>
     </v-data-table>
@@ -32,7 +32,7 @@ export default {
         },
         {
           text: "Название",
-          value: "name",
+          value: "title",
         },
         {
           text: "Автор",
@@ -40,7 +40,7 @@ export default {
         },
         {
           text: "Наличие",
-          value: "status",
+          value: "availability",
         },
       ],
       books: [],
@@ -48,8 +48,7 @@ export default {
   },
   methods: {
     load_books_list() {
-      this.$axios.get("https://127.0.0.1:8000/api/book/all").then((response) => {
-        consloe.log("success");
+      this.$axios.get("http://127.0.0.1:8000/api/book/all").then((response) => {
         this.books = response.data;
       });
     },
@@ -57,5 +56,11 @@ export default {
   mounted() {
     this.load_books_list();
   },
+  async asyncData({ $axios }) {
+    const response = await $axios.get("http://127.0.0.1:8000/api/book/all");
+    return {
+      books: response.data
+    }
+  }
 };
 </script>

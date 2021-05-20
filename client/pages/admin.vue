@@ -7,23 +7,24 @@
       :items-per-page="5"
       class="elevation-1"
     >
-      <template v-slot:[`item.status`]="{ item }">
+      <template v-slot:[`item.availability`]="{ item }">
         <v-btn
           class="ma-2"
-          :color="item.status ? 'blue' : 'red'"
+          :color="item.availability ? 'blue' : 'red'"
           label
           outlined
-          :click="change_book_availabilty(item.id)"
+          @click="change_book_availability(item.id)"
         >
-          {{ item.status ? "В наличии" : "Выдана" }}
+          {{ item.availability ? "В наличии" : "Выдана" }}
         </v-btn>
       </template>
       <template v-slot:[`item.deletion`]="{ item }">
         <v-btn
-          class="ma-2"
-          :color="red"
+          class="ma-2 white--text"
+          color="red"
+          te
           label
-          :click="delete_book(item.id)"
+          @click="delete_book(item.id)"
         >
           Удалить
         </v-btn>
@@ -44,7 +45,7 @@
             <v-text-field label="Автор" v-model="new_book.author"></v-text-field>
           </v-col>
           <v-col>
-            <v-btn color="purple" outlined :click="add_book()">Добавить</v-btn>
+            <v-btn color="purple" outlined @click="add_book()">Добавить</v-btn>
           </v-col>
         </v-row>
       </v-card-text>
@@ -63,7 +64,7 @@ export default {
         },
         {
           text: "Название",
-          value: "name",
+          value: "title",
         },
         {
           text: "Автор",
@@ -71,7 +72,7 @@ export default {
         },
         {
           text: "Наличие",
-          value: "status",
+          value: "availability",
         },
         {
           text: "Удаление",
@@ -87,28 +88,27 @@ export default {
   },
   methods: {
     load_books_list() {
-      this.$axios.get("https://127.0.0.1:8000/api/book/all").then((response) => {
-        consloe.log("success");
+      this.$axios.get("http://127.0.0.1:8000/api/book/all").then((response) => {
         this.books = response.data;
       });
     },
     add_book() {
       this.$axios
-        .post("https://127.0.0.1:8000/api/book/add", this.new_book)
+        .post("http://127.0.0.1:8000/api/book/add", this.new_book)
         .then((response) => {
           this.load_books_list();
         });
     },
     delete_book(id) {
       this.$axios
-        .get("https://127.0.0.1:8000/api/book/delete/" + id)
+        .get("http://127.0.0.1:8000/api/book/delete/" + id)
         .then((response) => {
           this.load_books_list();
         });
     },
     change_book_availability(id) {
       this.$axios
-        .get("https://127.0.0.1:8000/api/book/change_availabilty/" + id)
+        .get("http://127.0.0.1:8000/api/book/change_availabilty/" + id)
         .then((response) => {
           this.load_books_list();
         });
@@ -117,5 +117,11 @@ export default {
   mounted() {
     this.load_books_list();
   },
+  async asyncData({ $axios }) {
+    const response = await $axios.get("http://127.0.0.1:8000/api/book/all");
+    return {
+      books: response.data
+    }
+  }
 };
 </script>

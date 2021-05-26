@@ -24,9 +24,9 @@
                 </v-row>
             </v-form>
         </v-card-text>
-        <v-card-footer class="red--text">
+        <v-card-text class="red--text">
             {{ error_message }}
-        </v-card-footer>
+        </v-card-text>
     </v-card>
   </div>
 </template>
@@ -60,7 +60,8 @@ export default {
                 }
             })
             .then((response) => {
-                this.$store.commit('setToken', response.data);
+                this.$store.commit('setToken', response.data['token']);
+                this.$store.commit('setUser', response.data['user']);
                 this.$router.push('/');
             })
     },

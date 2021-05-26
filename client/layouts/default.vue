@@ -2,6 +2,7 @@
   <v-app>
     
     <v-navigation-drawer
+      v-if="is_authenticated"
       v-model="drawer"
       :mini-variant="miniVariant"
       :clipped="clipped"
@@ -16,6 +17,7 @@
           v-for="(item, i) in items"
           :key="i"
           :to="item.to"
+          v-if="check_admin_rights(item)"
           router
           exact
         >
@@ -34,8 +36,9 @@
       fixed
       app
     >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <v-app-bar-nav-icon v-if="is_authenticated" @click.stop="drawer = !drawer" />
       <v-btn
+        v-if="is_authenticated"
         icon
         @click.stop="miniVariant = !miniVariant"
       >
@@ -76,10 +79,28 @@ export default {
           icon: 'mdi-database-edit',
           title: 'Админ-панель',
           to: '/admin'
+        },
+        {
+          icon: 'mdi-logout',
+          title: 'Сменить пользователя',
+          to: '/login'
         }
       ],
       miniVariant: false,
       title: 'Библиотека имени Кого-То Там'
+    };
+  },
+  computed: {
+    is_authenticated() {
+      return this.$store.state.apiToken;
+    }
+  },
+  methods: {
+    check_admin_rights(item) {
+      if (item.to != '/admin') {
+        return true;
+      }
+      return (this.$store.state.user && this.$store.state.user == 'admin');
     }
   }
 }

@@ -6,12 +6,16 @@ Vue.use(Vuex)
 const store = () => new Vuex.Store({
  
  state: {
-   apiToken: ''
+   apiToken: '',
+   user: ''
  },
  mutations: {
    setToken(state, token) {
      state.apiToken = token;
-   }
+   },
+   setUser(state, user) {
+    state.user = user;
+  }
  }
 })
  

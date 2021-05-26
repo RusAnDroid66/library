@@ -26,9 +26,9 @@ class AuthController extends Controller
         }
 
         if ($user->name == 'Admin') {
-            return $user->createToken($request->device_name, ['read', 'edit'])->plainTextToken;
+            return [ 'token' => $user->createToken($request->device_name, ['read', 'edit'])->plainTextToken, 'user' => 'admin' ];
         }
      
-        return $user->createToken($request->device_name, ['read'])->plainTextToken;
+        return [ 'token' => $user->createToken($request->device_name, ['read'])->plainTextToken, 'user' => 'user' ];
     }
 }

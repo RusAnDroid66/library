@@ -114,7 +114,7 @@ export default {
     },
     change_book_availability(id) {
       this.$axios
-        .get("http://127.0.0.1:8000/api/book/change_availabilty/" + id, { 
+        .get("http://127.0.0.1:8000/api/book/change_availability/" + id, { 
           headers: { "Authorization" : 'Bearer ' + this.$store.state.apiToken } 
         })
         .then((response) => {
